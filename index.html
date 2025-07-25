@@ -1,76 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Energy Profile Report Card</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Character Creator</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="container">
+    <h1>Custom Character Creator</h1>
+    <form id="characterForm">
+      <label>Name: <input type="text" id="name" required /></label>
 
-  <div class="report-card">
-    <h1 class="character-name">Rick</h1>
-    <p class="info"><strong>Energy Type:</strong> Spiritual</p>
-    <p class="info"><strong>Mechanic:</strong> Precision Release</p>
-    <p class="info"><strong>Archetype:</strong> Tactical Mind</p>
+      <label>Energy Type:
+        <select id="energyType">
+          <option value="Physical">Physical</option>
+          <option value="Natural">Natural</option>
+          <option value="Spiritual">Spiritual</option>
+        </select>
+      </label>
 
-    <div class="attribute-block">
-      <h2>Attack</h2>
-      <ul>
-        <li>Power: <span class="grade B">B</span></li>
-        <li>Accuracy: <span class="grade B+">B+</span></li>
-        <li>Mental Attack: <span class="grade A-">A−</span></li>
-        <li>Attack Speed: <span class="grade B">B</span></li>
-      </ul>
-    </div>
+      <label>Mechanic:
+        <select id="mechanic">
+          <option value="Precision Release">Precision Release</option>
+          <option value="Explosive Release">Explosive Release</option>
+          <option value="Infused Release">Infused Release</option>
+          <option value="Attach (Bind) Release">Attach (Bind) Release</option>
+          <option value="Spread Release">Spread Release</option>
+          <option value="Pierce Release">Pierce Release</option>
+        </select>
+      </label>
 
-    <div class="attribute-block">
-      <h2>Defense</h2>
-      <ul>
-        <li>Toughness: <span class="grade C+">C+</span></li>
-        <li>Durability: <span class="grade B">B</span></li>
-        <li>Strength: <span class="grade B-">B−</span></li>
-        <li>Interior Defense: <span class="grade B+">B+</span></li>
-      </ul>
-    </div>
+      <h2>Sub-Attributes (A+ to G)</h2>
+      <div class="grid">
+        <label>IQ <input type="text" id="IQ" placeholder="e.g., B+" /></label>
+        <label>Power <input type="text" id="Power" placeholder="e.g., A" /></label>
+        <label>Strength <input type="text" id="Strength" placeholder="e.g., C" /></label>
+        <label>Movement Speed <input type="text" id="Speed" placeholder="e.g., B-" /></label>
+        <label>Durability <input type="text" id="Durability" placeholder="e.g., A-" /></label>
+        <label>Healing <input type="text" id="Healing" placeholder="e.g., C+" /></label>
+        <label>Toughness <input type="text" id="Toughness" placeholder="e.g., B" /></label>
+        <label>Mental Attack <input type="text" id="MentalAttack" placeholder="e.g., A+" /></label>
+        <label>Mental Recovery <input type="text" id="MentalRecovery" placeholder="e.g., B+" /></label>
+        <label>Awareness <input type="text" id="Awareness" placeholder="e.g., C-" /></label>
+      </div>
 
-    <div class="attribute-block">
-      <h2>Stamina</h2>
-      <ul>
-        <li>Stamina Capacity: <span class="grade A">A</span></li>
-        <li>Stamina Efficiency: <span class="grade B+">B+</span></li>
-        <li>Endurance: <span class="grade B">B</span></li>
-      </ul>
-    </div>
+      <button type="submit">Generate Character</button>
+    </form>
 
-    <div class="attribute-block">
-      <h2>Speed</h2>
-      <ul>
-        <li>Movement Speed: <span class="grade B">B</span></li>
-        <li>Reflex Speed: <span class="grade B+">B+</span></li>
-        <li>Elusiveness: <span class="grade B">B</span></li>
-      </ul>
-    </div>
-
-    <div class="attribute-block">
-      <h2>Health</h2>
-      <ul>
-        <li>Healing: <span class="grade A-">A−</span></li>
-        <li>Injury Recovery: <span class="grade B">B</span></li>
-        <li>Immune Recovery: <span class="grade B+">B+</span></li>
-      </ul>
-    </div>
-
-    <div class="attribute-block">
-      <h2>Mental</h2>
-      <ul>
-        <li>IQ: <span class="grade A">A</span></li>
-        <li>Cognition: <span class="grade A">A</span></li>
-        <li>Reaction Speed: <span class="grade A-">A−</span></li>
-        <li>Awareness: <span class="grade A">A</span></li>
-        <li>Mental Recovery: <span class="grade A">A</span></li>
-      </ul>
-    </div>
+    <div id="result" class="card hidden"></div>
   </div>
 
+  <script>
+    const form = document.getElementById('characterForm');
+    const result = document.getElementById('result');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const subAttrs = ['IQ', 'Power', 'Strength', 'Speed', 'Durability', 'Healing', 'Toughness', 'MentalAttack', 'MentalRecovery', 'Awareness'];
+      const charData = subAttrs.map(attr => ({ name: attr, value: document.getElementById(attr).value.toUpperCase() }));
+
+      const sorted = [...charData].sort((a, b) => rankVal(b.value) - rankVal(a.value));
+      const top3 = sorted.slice(0, 3).map(item => item.name);
+
+      let name = document.getElementById('name').value;
+      let energy = document.getElementById('energyType').value;
+      let mechanic = document.getElementById('mechanic').value;
+
+      let archetype = generateArchetype(top3, energy);
+
+      result.innerHTML = `
+        <h2>${name} - <span>${archetype}</span></h2>
+        <p><strong>Energy Type:</strong> ${energy}</p>
+        <p><strong>Mechanic:</strong> ${mechanic}</p>
+        <h3>Top Attributes:</h3>
+        <ul>${top3.map(attr => `<li>${attr}</li>`).join('')}</ul>
+      `;
+      result.classList.remove('hidden');
+    });
+
+    function rankVal(val) {
+      const grades = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D", "E", "F", "G"];
+      return grades.indexOf(val);
+    }
+
+    function generateArchetype(topAttrs, energy) {
+      if (topAttrs.includes("IQ")) return energy + " Mastermind";
+      return energy + " " + topAttrs.join("-");
+    }
+  </script>
 </body>
 </html>
