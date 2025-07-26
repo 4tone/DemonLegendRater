@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Character Creator</title>
+  <title>Character Report Card</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -31,21 +31,45 @@
         </select>
       </label>
 
-      <h2>Sub-Attributes (A+ to G)</h2>
+      <h2>Sub-Attributes (Use grades like A+, B, C-, etc)</h2>
+
       <div class="grid">
-        <label>IQ <input type="text" id="IQ" placeholder="e.g., B+" /></label>
-        <label>Power <input type="text" id="Power" placeholder="e.g., A" /></label>
-        <label>Strength <input type="text" id="Strength" placeholder="e.g., C" /></label>
-        <label>Movement Speed <input type="text" id="Speed" placeholder="e.g., B-" /></label>
-        <label>Durability <input type="text" id="Durability" placeholder="e.g., A-" /></label>
-        <label>Healing <input type="text" id="Healing" placeholder="e.g., C+" /></label>
-        <label>Toughness <input type="text" id="Toughness" placeholder="e.g., B" /></label>
-        <label>Mental Attack <input type="text" id="MentalAttack" placeholder="e.g., A+" /></label>
-        <label>Mental Recovery <input type="text" id="MentalRecovery" placeholder="e.g., B+" /></label>
-        <label>Awareness <input type="text" id="Awareness" placeholder="e.g., C-" /></label>
+        <!-- SPEED -->
+        <label>Movement Speed <input type="text" id="MovementSpeed" /></label>
+        <label>Reaction Time <input type="text" id="ReactionTime" /></label>
+        <label>Elusiveness <input type="text" id="Elusiveness" /></label>
+
+        <!-- ATTACK -->
+        <label>Power <input type="text" id="Power" /></label>
+        <label>Accuracy <input type="text" id="Accuracy" /></label>
+        <label>Technique <input type="text" id="Technique" /></label>
+        <label>Impact <input type="text" id="Impact" /></label>
+
+        <!-- DEFENSE -->
+        <label>Energy Defense <input type="text" id="EnergyDefense" /></label>
+        <label>Block Control <input type="text" id="BlockControl" /></label>
+        <label>Dodge Timing <input type="text" id="DodgeTiming" /></label>
+
+        <!-- HEALTH -->
+        <label>Body Durability <input type="text" id="BodyDurability" /></label>
+        <label>Immune Health <input type="text" id="ImmuneHealth" /></label>
+
+        <!-- RECOVERY -->
+        <label>Injury Recovery <input type="text" id="InjuryRecovery" /></label>
+        <label>Mental Recovery <input type="text" id="MentalRecovery" /></label>
+
+        <!-- RANGE -->
+        <label>Close Range Control <input type="text" id="CloseRange" /></label>
+        <label>Long Range Control <input type="text" id="LongRange" /></label>
+        <label>Attack Range Shift <input type="text" id="RangeShift" /></label>
+
+        <!-- STAMINA -->
+        <label>Stamina Pool <input type="text" id="StaminaPool" /></label>
+        <label>Stamina Control <input type="text" id="StaminaControl" /></label>
+        <label>Energy Efficiency <input type="text" id="EnergyEfficiency" /></label>
       </div>
 
-      <button type="submit">Generate Character</button>
+      <button type="submit">Generate Report Card</button>
     </form>
 
     <div id="result" class="card hidden"></div>
@@ -58,23 +82,34 @@
     form.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const subAttrs = ['IQ', 'Power', 'Strength', 'Speed', 'Durability', 'Healing', 'Toughness', 'MentalAttack', 'MentalRecovery', 'Awareness'];
-      const charData = subAttrs.map(attr => ({ name: attr, value: document.getElementById(attr).value.toUpperCase() }));
+      const fields = [
+        "MovementSpeed", "ReactionTime", "Elusiveness",
+        "Power", "Accuracy", "Technique", "Impact",
+        "EnergyDefense", "BlockControl", "DodgeTiming",
+        "BodyDurability", "ImmuneHealth",
+        "InjuryRecovery", "MentalRecovery",
+        "CloseRange", "LongRange", "RangeShift",
+        "StaminaPool", "StaminaControl", "EnergyEfficiency"
+      ];
+
+      const charData = fields.map(id => ({
+        name: id.replace(/([A-Z])/g, ' $1').trim(),
+        value: document.getElementById(id).value.toUpperCase()
+      }));
 
       const sorted = [...charData].sort((a, b) => rankVal(b.value) - rankVal(a.value));
-      const top3 = sorted.slice(0, 3).map(item => item.name);
+      const top3 = sorted.slice(0, 3).map(x => x.name);
 
-      let name = document.getElementById('name').value;
-      let energy = document.getElementById('energyType').value;
-      let mechanic = document.getElementById('mechanic').value;
-
-      let archetype = generateArchetype(top3, energy);
+      const name = document.getElementById('name').value;
+      const energy = document.getElementById('energyType').value;
+      const mechanic = document.getElementById('mechanic').value;
+      const archetype = generateArchetype(top3, energy);
 
       result.innerHTML = `
         <h2>${name} - <span>${archetype}</span></h2>
         <p><strong>Energy Type:</strong> ${energy}</p>
         <p><strong>Mechanic:</strong> ${mechanic}</p>
-        <h3>Top Attributes:</h3>
+        <h3>Top Sub-Attributes:</h3>
         <ul>${top3.map(attr => `<li>${attr}</li>`).join('')}</ul>
       `;
       result.classList.remove('hidden');
@@ -82,12 +117,16 @@
 
     function rankVal(val) {
       const grades = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D", "E", "F", "G"];
-      return grades.indexOf(val);
+      const index = grades.indexOf(val);
+      return index === -1 ? grades.length : index;
     }
 
-    function generateArchetype(topAttrs, energy) {
-      if (topAttrs.includes("IQ")) return energy + " Mastermind";
-      return energy + " " + topAttrs.join("-");
+    function generateArchetype(top3, energy) {
+      if (top3.includes("Elusiveness")) return energy + " Phantom";
+      if (top3.includes("Power")) return energy + " Juggernaut";
+      if (top3.includes("Technique")) return energy + " Specialist";
+      if (top3.includes("Mental Recovery")) return energy + " Mindguard";
+      return energy + " " + top3[0].split(" ")[0];
     }
   </script>
 </body>
