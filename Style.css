@@ -1,62 +1,154 @@
-body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #121212;
-  color: #e0e0e0;
-  margin: 0;
-  padding: 0;
-}
-.container {
-  max-width: 950px;
-  margin: auto;
-  padding: 20px;
-}
-h1, h2 {
-  text-align: center;
-  color: #ffffff;
-}
-form {
-  background-color: #1e1e1e;
-  padding: 20px;
-  border-radius: 8px;
-}
-label {
-  display: block;
-  margin: 10px 0;
-}
-input, select {
-  width: 100%;
-  padding: 8px;
-  border-radius: 5px;
-  border: none;
-  margin-top: 5px;
-  background: #2c2c2c;
-  color: #fff;
-}
-button {
-  margin-top: 20px;
-  padding: 12px;
-  width: 100%;
-  background-color: #007bff;
-  color: white;
-  font-size: 1rem;
-  border: none;
-  border-radius: 5px;
-}
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
-}
-.card {
-  background-color: #1a1a1a;
-  margin-top: 25px;
-  padding: 15px;
-  border-radius: 8px;
-  border-left: 4px solid #007bff;
-}
-.hidden {
-  display: none;
-}
-ul {
-  padding-left: 20px;
-}
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>DemondLegendRater</title>
+<head>
+<body>
+    <h2>DemondLegend</h2>
+    <h4>Energy type:</h4>
+    <h4>Energy mechanic:</h4>
+    <h4>rating</h4>
+
+    <table>
+        <tr>
+           <th>general-attributes</th>
+           <th>base-grade</th>
+           <th>potential-grade</th>
+           <th>number-grade</th>
+           <th>boost/debuff</th>
+        </tr>
+        <tr>
+            <td>energy-techniques</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>energy-skill</td>
+        </tr>
+        <tr>
+            <td>IQ</td>
+        </tr>
+        <tr>
+            <td>strengh</td>
+        </tr>
+        <tr>
+            <td>comat-skills</td>
+        </tr>
+    </table>
+
+
+    <table>
+        <tr>
+            <th>ATK-attributes</th>
+            <th>base-grade</th>
+           <th>potential-grade</th>
+           <th>number-grade</th>
+           <th>boost/debuff</th>
+        </tr>
+        <tr>
+            <td>energy-damage</td>
+            <td>energy-impact</td>
+            <td>attack-accuracy</td>
+
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <th>SPD-attrubute</th>
+            <th>base-grade</th>
+           <th>potential-grade</th>
+           <th>number-grade</th>
+           <th>boost/debuff</th>
+        </tr>
+        <tr>
+            <td>movement-speed</td>
+            <td>reflex-speed</td>
+            <td>energy-atack-speed</td>
+        </tr>
+    </table>
+
+
+
+    <table>
+        <tr>
+            <th>MENT-attributes</th>
+            <th>base-grade</th>
+           <th>potential-grade</th>
+           <th>number-grade</th>
+           <th>boost/debuff</th>
+        </tr>
+        <tr>
+            <td>awareness</td>
+            <td>focus</td>
+            <td>battle-IQ</td>
+            <td>mental-recovery</td>
+            <td>cognition</td>
+            <td>reaction speed</td>
+        </tr>
+    </table>
+    
+
+
+    <table>
+        <tr>
+            <th>DEF-attributes</th>
+            <th>base-grade</th>
+           <th>potential-grade</th>
+           <th>number-grade</th>
+           <th>boost/debuff</th>
+        </tr>
+        <tr>
+            <td>physical energy-defense</td>
+            <td>mental energy-defense</td>
+            <td>energy durabillity</td>
+            <td>energy toughness</td>
+
+
+        </tr>
+    </table>
+    
+
+
+    <table>
+        <tr>
+            <th>STM-attributes</th>
+            <th>base-grade</th>
+           <th>potential-grade</th>
+           <th>number-grade</th>
+           <th>boost/debuff</th>
+        </tr>
+        <tr>
+            <td>energy-capacity</td>
+            <td>energy efficiency</td>
+            <td>endurances</td>
+        </tr>
+    </table>
+
+
+    
+    <table>
+        <tr>
+            <th>Heal-attributes</th>
+            <th>base-grade</th>
+           <th>potential-grade</th>
+           <th>number-grade</th>
+           <th>boost/debuff</th>
+        </tr>
+        <tr>
+            <td>stamina-recovery</td>
+            <td>injury-recovery</td>
+            <td>fatigue recovery</td>
+            <td>status effect recovery</td>
+            <td>immune-system</td>
+        </tr>
+    </table>
+    
+</body>
+
+</html>
